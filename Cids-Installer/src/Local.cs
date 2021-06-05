@@ -1,6 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
-using System.Text;
+using System.Text.Json;
 
 namespace Cids_Installer
 {
@@ -8,18 +9,25 @@ namespace Cids_Installer
     {
         public const string MainEnv = "Cids";
         public const string Id = "CidsUUID";
-        // ProgramFiles
-        public const string PF = "ProgramFiles";
+        public const string PF = "ProgramFiles"; // ProgramFiles
+        public static readonly string ProgramFilesPath = Environment.GetEnvironmentVariable(PF, Process);
         public const EnvironmentVariableTarget Process = EnvironmentVariableTarget.Process;
         public const EnvironmentVariableTarget Machine = EnvironmentVariableTarget.Machine;
-        
+
         //todo
         //set the json
-        public String UuId { get; set; }
+        public static String UuId = Database.GetId;
         static Local()
         {
+            #region Set Env Var
             Environment.SetEnvironmentVariable(MainEnv,
-                Environment.GetEnvironmentVariable(PF,Process));
+                Path.Combine(ProgramFilesPath,MainEnv),Machine); // Cids
+            Environment.SetEnvironmentVariable(Id, UuId, Machine); // CidsUUID
+            #endregion
+        }
+        public static void SaveConfFile()
+        {
+
         }
     }
 }
