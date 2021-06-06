@@ -26,6 +26,10 @@ namespace Cids_Installer
         public static String UuId { get; set; }
         static Local()
         {
+            //EnvironmentLoading();
+        }
+        public static void EnvironmentLoading()
+        {
             #region Set Env Var
             Environment.SetEnvironmentVariable(MainEnv,
                 Path.Combine(ProgramFilesPath,MainEnv),Machine); // Cids

@@ -6,6 +6,7 @@
 # Specific Owner Files
 
 db.json
+db.log
 LocalTest.cs
 
 # User-specific files

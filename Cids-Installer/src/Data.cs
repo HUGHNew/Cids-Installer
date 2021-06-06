@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace Cids_Installer
 {
@@ -10,7 +7,8 @@ namespace Cids_Installer
         public string Ip { get; set; }
         public string User { get; set; }
         public string Password { get; set; }
-        public string Catalog { get; set; }
+        public string Database { get; set; }
+        public uint Port { get; set; }
     }
     namespace ConfComponent
     {

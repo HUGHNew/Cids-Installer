@@ -4,14 +4,19 @@ using System.IO;
 using System.Text.Json;
 using System.Collections.Generic;
 using System.Linq;
-using System.Data.SqlClient;
-using static Cids_Installer.Sql;
+using MySql.Data.MySqlClient;
+using static Cids_Installer.MySql;
 
 namespace Cids_Installer
 {
     class Database
     {
         private string position;
+
+        #region Variables For Form
+        public bool Comfirm { get; private set; }
+        private readonly List<String> ClassRooms;
+        #endregion
 
         #region Id Region
         public const int IdLen = 7;
@@ -35,7 +40,7 @@ namespace Cids_Installer
         // where to get db info to connect
         public const string DataBaseInfo = "db.json";
         private readonly DBInfo Info;
-        private readonly SqlConnectionStringBuilder Builder;
+        private readonly MySqlConnectionStringBuilder Builder;
         private int Id=-1;
 #if FETCH
         private readonly Dictionary<String, int> IdMap;
@@ -43,13 +48,13 @@ namespace Cids_Installer
         #region SQL Relative Func
 
         // useless function
-        private Rel SqlTodo<Rel>(string sql, Func<Rel>todo)
+        private Rel MySqlTodo<Rel>(string sql, Func<Rel>todo)
         {
-            using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
+            using (MySqlConnection connection = new MySqlConnection(Builder.ConnectionString))
             {
-                using (SqlCommand command = new SqlCommand(sql))
+                using (MySqlCommand command = new MySqlCommand(sql))
                 {
-                    using (SqlDataReader reader = command.ExecuteReader())
+                    using (MySqlDataReader reader = command.ExecuteReader())
                     {
                         return todo();
                     }
@@ -62,10 +67,10 @@ namespace Cids_Installer
         }
         public int QueryIdFromDatabase(bool update=false)
         {
-            using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
+            using (MySqlConnection connection = new MySqlConnection(Builder.ConnectionString))
             {
                 string sql = QueryExact(position);
-                using (SqlCommand command = new SqlCommand(sql, connection))
+                using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
                     if (command.CommandText.Length != 0)
                     {
@@ -81,25 +86,31 @@ namespace Cids_Installer
         #endregion
         public Database(string place) {
             Info = JsonSerializer.Deserialize<DBInfo>(File.ReadAllText(DataBaseInfo));
-            Builder = new SqlConnectionStringBuilder
+            Builder = SqlStrBuilder(ref Info);
+
+            IdMap = new Dictionary<string, int>();
+            position = place;
+        }
+        public static MySqlConnectionStringBuilder SqlStrBuilder(ref DBInfo Info)
+        {
+            return new MySqlConnectionStringBuilder
             {
-                DataSource = Info.Ip,
+                Database = Info.Database,
+                Server = Info.Ip,
                 UserID = Info.User,
                 Password = Info.Password,
-                InitialCatalog = Info.Catalog
+                Port = Info.Port,
+                CharacterSet = "UTF8",
+                Pooling = true,
             };
-#if FETCH
-            IdMap = new Dictionary<string, int>();
-#endif
-            position = place;
         }
 #if FETCH
         public Database Fetch() {
-            using (SqlConnection connection=new SqlConnection(Builder.ConnectionString))
+            using (MySqlConnection connection=new MySqlConnection(Builder.ConnectionString))
             {
                 connection.Open();
-                using (SqlCommand command=new SqlCommand(QueryCmd,connection)) {
-                    using (SqlDataReader reader = command.ExecuteReader()) {
+                using (MySqlCommand command=new MySqlCommand(QueryCmd,connection)) {
+                    using (MySqlDataReader reader = command.ExecuteReader()) {
                         // Read to map
                         while (reader.Read()) {
                             IdMap.Add(reader.GetString(0), reader.GetInt32(1));
@@ -143,10 +154,10 @@ namespace Cids_Installer
         }
         public bool QueryBySelect(ref int id)
         {
-            using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
+            using (MySqlConnection connection = new MySqlConnection(Builder.ConnectionString))
             {
                 string sql = QueryExact(position);
-                using (SqlCommand command = new SqlCommand(sql, connection))
+                using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
                     if (command.CommandText.Length != 0)
                     {
@@ -178,15 +189,27 @@ namespace Cids_Installer
             return PushPlace().GetId();
         }
         public Database PushPlace() {
-            using (SqlConnection connection = new SqlConnection(Builder.ConnectionString))
+            using (MySqlConnection connection = new MySqlConnection(Builder.ConnectionString))
             {
                 string sql = Inc+AppendSql(position);
-                using SqlCommand command = new SqlCommand(sql, connection);
+                using MySqlCommand command = new MySqlCommand(sql, connection);
             }
             return this;
         }
         #endregion
-        #region Search
-        #endregion Search
+        #region Search For App
+        public IEnumerable<String> Check(String loc)
+        {
+            List<String> choices = new List<String>();
+            foreach(var it in IdMap.Keys)
+            {
+                if (it.Contains(loc))
+                {
+                    choices.Add(it);
+                }
+            }
+            return choices;
+        }
+        #endregion//Search
     }
 }
