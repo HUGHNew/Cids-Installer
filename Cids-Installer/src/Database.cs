@@ -14,7 +14,7 @@ namespace Cids_Installer
         private string position;
 
         #region Variables For Form
-        public bool Comfirm { get; private set; }
+        public bool Confirmed { get; private set; }
         private readonly List<String> ClassRooms;
         #endregion
 
@@ -84,12 +84,11 @@ namespace Cids_Installer
             }
         }
         #endregion
-        public Database(string place) {
+        public Database() {
             Info = JsonSerializer.Deserialize<DBInfo>(File.ReadAllText(DataBaseInfo));
             Builder = SqlStrBuilder(ref Info);
 
             IdMap = new Dictionary<string, int>();
-            position = place;
         }
         public static MySqlConnectionStringBuilder SqlStrBuilder(ref DBInfo Info)
         {
@@ -128,35 +127,35 @@ namespace Cids_Installer
          * if exist get existing one
          * or generate one
          */
-        public String QueryAndAppend() {
+        public String QueryAndUpdate(string loc) {
             int id = 0;
-            if (!Query(ref id)) {
-                id=Append();
+            if (!Query(loc,ref id)) {
+                id=Update();
             }
             return IDCompletion(id);
         }
         // query
-        public bool Query(ref int id)
+        public bool Query(string loc, ref int id)
         {
 #if FETCH
-            return QueryByFetch(ref id);
+            return QueryByFetch(loc,ref id);
 #else
             return QueryBySelect(ref id);
 #endif
         }
-        public bool QueryByFetch(ref int id)
+        public bool QueryByFetch(string loc,ref int id)
         {
-            bool exist = IdMap.ContainsKey(position);
+            bool exist = IdMap.ContainsKey(loc);
             if (exist) {
-                id = IdMap.GetValueOrDefault(position, 0);
+                id = IdMap.GetValueOrDefault(loc, -1);
             }
             return exist;
         }
-        public bool QueryBySelect(ref int id)
+        public bool QueryBySelect(string loc, ref int id)
         {
             using (MySqlConnection connection = new MySqlConnection(Builder.ConnectionString))
             {
-                string sql = QueryExact(position);
+                string sql = QueryExact(loc);
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
                     if (command.CommandText.Length != 0)
@@ -168,16 +167,6 @@ namespace Cids_Installer
                 }
             }
             return false;
-        }
-        /**
-         * @brief 向数据库中添加一个新地点 同时获得一个生成 UUID 每次添加后更新本地 IdMap
-         * @warning 可能会有没想到部署时的数据库高并发导致的不同步问题
-         */
-        public int Append()
-        {
-            int alloc = 0;
-            Update();
-            return alloc;
         }
         /**
          * @brief Push the place 
@@ -201,14 +190,31 @@ namespace Cids_Installer
         public IEnumerable<String> Check(String loc)
         {
             List<String> choices = new List<String>();
-            foreach(var it in IdMap.Keys)
+            if (Query(loc,ref Id))
             {
-                if (it.Contains(loc))
+                Confirmed = true;
+                position = loc;
+            }
+            else
+            {
+                foreach(var it in IdMap.Keys)
                 {
-                    choices.Add(it);
+                    if (it.Contains(loc))
+                    {
+                        choices.Add(it);
+                    }
                 }
             }
             return choices;
+        }
+        public String Confirm()
+        {
+            return IDCompletion(Id);
+        }
+        public String Insert(String loc)
+        {
+            position = loc;
+            return IDCompletion(Update());
         }
         #endregion//Search
     }
