@@ -20,9 +20,10 @@ namespace Cids_Installer
 
 
         public const string LoopBack = "127.0.0.1";
+        public const string Center = "";
         //todo
         //set the json
-        public static String UuId = Database.GetId;
+        public static String UuId { get; set; }
         static Local()
         {
             #region Set Env Var
@@ -34,7 +35,7 @@ namespace Cids_Installer
         }
         public static void SaveDefault()
         {
-            SaveConfFile("", CidsFile);
+            SaveConfFile(Center, CidsFile);
         }
         public static void SaveLoopbackConf()
         {
