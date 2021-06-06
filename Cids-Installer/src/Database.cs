@@ -1,6 +1,9 @@
 ﻿using System;
+using System.IO;
+using System.Text.Json;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.SqlClient;
 
 namespace Cids_Installer
 {
@@ -36,13 +39,27 @@ namespace Cids_Installer
         }
         #endregion
 
+        #region SQL Connection and Data Source
+        // where to get db info to connect
+        public const string DataBaseInfo = "db.json";
+        private readonly DBInfo Info;
+
         // Need to Access SQL Database
         // something to store data
-        public Database() { }
+        public Database() {
+            Info = JsonSerializer.Deserialize<DBInfo>(File.ReadAllText(DataBaseInfo));
+            SqlConnectionStringBuilder builder = new SqlConnectionStringBuilder
+            {
+                DataSource = Info.Ip,
+                UserID = Info.User,
+                Password = Info.Password,
+                InitialCatalog = Info.Catalog
+            };
+        }
         public Database Fetch() {
             return this;
         }
-
+        #endregion
         // query
 
         // append
