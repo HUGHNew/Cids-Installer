@@ -71,7 +71,9 @@ namespace Cids_Installer
                         Max=5000,
                         Min=2000
                     }
-                }
+                },
+                Protocol=2,
+                Logo= "favicon.ico"
             };
             File.WriteAllText(savefile,JsonSerializer.Serialize(configuration));
         }

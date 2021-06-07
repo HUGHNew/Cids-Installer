@@ -16,7 +16,8 @@ namespace Cids_Installer
         {
             //SqlTest.QueryTestData();
             //SqlTest.QueryTestEmpty();
-            SqlTest.QueryIdMap();
+            //SqlTest.QueryIdMap();
+            LocalTest.JsonTest();
             //Application.SetHighDpiMode(HighDpiMode.SystemAware);
             //Application.EnableVisualStyles();
             //Application.SetCompatibleTextRenderingDefault(false);
