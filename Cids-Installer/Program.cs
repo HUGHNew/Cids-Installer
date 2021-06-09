@@ -17,11 +17,11 @@ namespace Cids_Installer
             //SqlTest.QueryTestData();
             //SqlTest.QueryTestEmpty();
             //SqlTest.QueryIdMap();
-            LocalTest.JsonTest();
-            //Application.SetHighDpiMode(HighDpiMode.SystemAware);
-            //Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
+            //LocalTest.JsonTest();
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Installer());
         }
     }
 }
