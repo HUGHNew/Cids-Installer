@@ -39,7 +39,9 @@ namespace Cids_Installer
             this.ClassroomBox = new System.Windows.Forms.TextBox();
             this.BuidingTip = new System.Windows.Forms.ToolTip(this.components);
             this.ClassTip = new System.Windows.Forms.ToolTip(this.components);
+            this.BGmotto = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.CampusLogo)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BGmotto)).BeginInit();
             this.SuspendLayout();
             // 
             // CampusLogo
@@ -54,7 +56,7 @@ namespace Cids_Installer
             // 
             // CheckBtn
             // 
-            this.CheckBtn.Location = new System.Drawing.Point(616, 303);
+            this.CheckBtn.Location = new System.Drawing.Point(518, 302);
             this.CheckBtn.Name = "CheckBtn";
             this.CheckBtn.Size = new System.Drawing.Size(75, 23);
             this.CheckBtn.TabIndex = 1;
@@ -63,7 +65,7 @@ namespace Cids_Installer
             // 
             // ConfirmBtn
             // 
-            this.ConfirmBtn.Location = new System.Drawing.Point(713, 302);
+            this.ConfirmBtn.Location = new System.Drawing.Point(620, 302);
             this.ConfirmBtn.Name = "ConfirmBtn";
             this.ConfirmBtn.Size = new System.Drawing.Size(75, 23);
             this.ConfirmBtn.TabIndex = 2;
@@ -103,20 +105,31 @@ namespace Cids_Installer
             this.ClassTip.AutomaticDelay = 50;
             this.ClassTip.ShowAlways = true;
             // 
+            // BGmotto
+            // 
+            this.BGmotto.Image = ((System.Drawing.Image)(resources.GetObject("BGmotto.Image")));
+            this.BGmotto.Location = new System.Drawing.Point(171, 170);
+            this.BGmotto.Name = "BGmotto";
+            this.BGmotto.Size = new System.Drawing.Size(436, 91);
+            this.BGmotto.TabIndex = 5;
+            this.BGmotto.TabStop = false;
+            // 
             // Installer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.BGmotto);
             this.Controls.Add(this.ClassroomBox);
             this.Controls.Add(this.BuildingBox);
             this.Controls.Add(this.ConfirmBtn);
             this.Controls.Add(this.CheckBtn);
             this.Controls.Add(this.CampusLogo);
             this.Name = "Installer";
-            this.Text = "Form1";
+            this.Text = "Cids-Installer";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.CampusLogo)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.BGmotto)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -132,6 +145,7 @@ namespace Cids_Installer
         private System.Windows.Forms.TextBox ClassroomBox;
         private System.Windows.Forms.ToolTip BuidingTip;
         private System.Windows.Forms.ToolTip ClassTip;
+        private System.Windows.Forms.PictureBox BGmotto;
     }
 }
 
