@@ -44,6 +44,7 @@ namespace Cids_Installer
         private int Id=-1;
 #if FETCH
         private readonly Dictionary<String, int> IdMap;
+        public int IdCount => IdMap.Count;
 #endif
         #region SQL Relative Func
 
@@ -84,11 +85,12 @@ namespace Cids_Installer
             }
         }
         #endregion
-        public Database() {
+        public Database(bool fetch=false) {
             Info = JsonSerializer.Deserialize<DBInfo>(File.ReadAllText(DataBaseInfo));
             Builder = SqlStrBuilder(ref Info);
 
             IdMap = new Dictionary<string, int>();
+            if (fetch) { Fetch(); }
         }
         public static MySqlConnectionStringBuilder SqlStrBuilder(ref DBInfo Info)
         {
@@ -219,21 +221,37 @@ namespace Cids_Installer
             return FuzzyMatching(loc);
         }
         #region Check Method
-        public IEnumerable<String> BuildingAndRoom(String loc,String room)
+        public IEnumerable<String> BuildingAndRoom(String loc,String room,bool allowEmpty=false)
         {
             List<String> choices = new List<String>();
-            if (Query(loc+room, ref Id))
+            if (Query(loc+room, ref Id)) // exactly match
             {
                 Confirmed = true;
                 position = loc;
             }
             else
             {
-                foreach (var it in IdMap.Keys)
-                {
-                    if (it.Contains(loc)|it.Contains(room))
+                Func<String,string, bool> NoEmptyContain = 
+                    (String keylist,string key) => {
+                    return key != "" && keylist.Contains(key);
+                };
+                if (allowEmpty) {
+                    foreach (var it in IdMap.Keys)
                     {
-                        choices.Add(it);
+                        if (it.Contains(loc) && it.Contains(room))
+                        {
+                            choices.Add(it);
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var it in IdMap.Keys)
+                    {
+                        if (NoEmptyContain (it,loc)&& NoEmptyContain(it,room))
+                        {
+                            choices.Add(it);
+                        }
                     }
                 }
             }
