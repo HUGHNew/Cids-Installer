@@ -15,11 +15,13 @@ namespace Cids_Installer
         static void Main()
         {
             //SqlTest.QueryTestData();
-            SqlTest.QueryTestEmpty();
-            //Application.SetHighDpiMode(HighDpiMode.SystemAware);
-            //Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
+            //SqlTest.QueryTestEmpty();
+            //SqlTest.QueryIdMap();
+            //LocalTest.JsonTest();
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Installer());
         }
     }
 }

@@ -2,8 +2,8 @@
 
 ```mermaid
 graph TD
-Form-->Query--Exist-->GetId-->CreateEnvironment
-Query--Create-->NewId-->CreateEnvironment-->SaveConfJson-->Success
+Form-->Query-->GetId-->CreateEnvironment
+Query--Create-->Update-->CreateEnvironment-->SaveConfJson-->Success
 ```
 
 ### Query
@@ -23,5 +23,5 @@ end
 Installer ->> Database : get or push and query
 ```
 
--   [ ] method one
+-   [x] method one
 -   [ ] method two

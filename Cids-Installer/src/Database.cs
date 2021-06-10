@@ -120,7 +120,20 @@ namespace Cids_Installer
             return this;
         }
 #endif//fetch
-        #endregion
+#if DEBUG
+        public Database ShowFetch(int limit,StreamWriter writer)
+        {
+            int i = 0;
+            writer.WriteLine($"IdMapSize:{IdMap.Count}");
+            foreach(var it in IdMap)
+            {
+                writer.WriteLine($"|{ it.Key}|{it.Value}|");
+                if (++i >= limit) break;
+            }
+            return this;
+        }
+#endif
+#endregion
         #region SQL Command
         /**
          * @brief get a id for place
@@ -134,7 +147,10 @@ namespace Cids_Installer
             }
             return IDCompletion(id);
         }
-        // query
+        /**
+         * @brief Query Place
+         * @return exist or not
+         */
         public bool Query(string loc, ref int id)
         {
 #if FETCH
@@ -187,19 +203,35 @@ namespace Cids_Installer
         }
         #endregion
         #region Search For App
+        /**
+         * @brief Easy-imp using StartWith or EndWith
+         */
+        public IEnumerable<String> Check(String loc, String room)
+        {
+            return BuildingAndRoom(loc,room);
+        }
+        /**
+         * @brief Using Fuzzy Matching
+         */
+        [Obsolete]
         public IEnumerable<String> Check(String loc)
         {
+            return FuzzyMatching(loc);
+        }
+        #region Check Method
+        public IEnumerable<String> BuildingAndRoom(String loc,String room)
+        {
             List<String> choices = new List<String>();
-            if (Query(loc,ref Id))
+            if (Query(loc+room, ref Id))
             {
                 Confirmed = true;
                 position = loc;
             }
             else
             {
-                foreach(var it in IdMap.Keys)
+                foreach (var it in IdMap.Keys)
                 {
-                    if (it.Contains(loc))
+                    if (it.Contains(loc)|it.Contains(room))
                     {
                         choices.Add(it);
                     }
@@ -207,6 +239,11 @@ namespace Cids_Installer
             }
             return choices;
         }
+        public IEnumerable<String> FuzzyMatching(String loc)
+        {
+            return new List<String>();
+        }
+        #endregion
         public String Confirm()
         {
             return IDCompletion(Id);

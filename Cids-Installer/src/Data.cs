@@ -40,6 +40,10 @@ namespace Cids_Installer
     {
         public ConfComponent.NetData Net { get; set; }
         public ConfComponent.TimeData Time { get; set; }
-        public string Logo = "";
+        // Udp =1
+        // Tcp =2
+        // Quic=3
+        public int Protocol { get; set; }
+        public string Logo { get; set; }
     }
 }

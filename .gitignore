@@ -4,9 +4,11 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 # Specific Owner Files
+favicon.ico
 
 db.json
 db.log
+
 LocalTest.cs
 
 # User-specific files

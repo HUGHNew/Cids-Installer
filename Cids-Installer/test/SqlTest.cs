@@ -53,5 +53,13 @@ namespace Cids_Installer
             }
             if (close) Log.Close();
         }
+#if DEBUG
+        public static void QueryIdMap(bool close = true)
+        {
+            Database db = new Database();
+            db.Fetch().ShowFetch(20,Log);
+            if (close) Log.Close();
+        }
+#endif
     }
 }
