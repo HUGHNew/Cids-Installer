@@ -40,6 +40,7 @@ namespace Cids_Installer
             this.BuidingTip = new System.Windows.Forms.ToolTip(this.components);
             this.ClassTip = new System.Windows.Forms.ToolTip(this.components);
             this.BGmotto = new System.Windows.Forms.PictureBox();
+            this.Help = new System.Windows.Forms.HelpProvider();
             ((System.ComponentModel.ISupportInitialize)(this.CampusLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BGmotto)).BeginInit();
             this.SuspendLayout();
@@ -49,7 +50,7 @@ namespace Cids_Installer
             this.CampusLogo.Image = ((System.Drawing.Image)(resources.GetObject("CampusLogo.Image")));
             this.CampusLogo.Location = new System.Drawing.Point(12, 12);
             this.CampusLogo.Name = "CampusLogo";
-            this.CampusLogo.Size = new System.Drawing.Size(86, 76);
+            this.CampusLogo.Size = new System.Drawing.Size(66, 66);
             this.CampusLogo.TabIndex = 0;
             this.CampusLogo.TabStop = false;
             this.CampusLogo.Click += new System.EventHandler(this.pictureBox1_Click);
@@ -94,15 +95,17 @@ namespace Cids_Installer
             // BuidingTip
             // 
             this.BuidingTip.AutomaticDelay = 0;
-            this.BuidingTip.AutoPopDelay = 2000;
+            this.BuidingTip.AutoPopDelay = 20000;
             this.BuidingTip.InitialDelay = 20;
             this.BuidingTip.ReshowDelay = 40;
             this.BuidingTip.ShowAlways = true;
-            this.BuidingTip.ToolTipTitle = "TipShow";
             // 
             // ClassTip
             // 
-            this.ClassTip.AutomaticDelay = 50;
+            this.ClassTip.AutomaticDelay = 0;
+            this.ClassTip.AutoPopDelay = 20000;
+            this.ClassTip.InitialDelay = 20;
+            this.ClassTip.ReshowDelay = 40;
             this.ClassTip.ShowAlways = true;
             // 
             // BGmotto
@@ -116,6 +119,7 @@ namespace Cids_Installer
             // 
             // Installer
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
@@ -125,7 +129,13 @@ namespace Cids_Installer
             this.Controls.Add(this.ConfirmBtn);
             this.Controls.Add(this.CheckBtn);
             this.Controls.Add(this.CampusLogo);
+            this.HelpButton = true;
+            this.Help.SetHelpString(this, "先输入教学楼信息 再输入教室地点 查询后 如果该地点存在 则可以点击确定 如果该地点不存在 则可以点击新增");
+            this.KeyPreview = true;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Installer";
+            this.Help.SetShowHelp(this, true);
             this.Text = "Cids-Installer";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.CampusLogo)).EndInit();
@@ -146,6 +156,7 @@ namespace Cids_Installer
         private System.Windows.Forms.ToolTip BuidingTip;
         private System.Windows.Forms.ToolTip ClassTip;
         private System.Windows.Forms.PictureBox BGmotto;
+        public System.Windows.Forms.HelpProvider Help;
     }
 }
 
