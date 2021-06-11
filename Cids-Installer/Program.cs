@@ -11,7 +11,8 @@ namespace Cids_Installer
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
-        [STAThread]
+        //[STAThread]
+        [MTAThread]
         static void Main()
         {
             //SqlTest.QueryTestData();

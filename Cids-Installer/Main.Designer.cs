@@ -42,7 +42,7 @@ namespace Cids_Installer
             this.BGmotto = new System.Windows.Forms.PictureBox();
             this.Help = new System.Windows.Forms.HelpProvider();
             this.InstallerText = new System.Windows.Forms.PictureBox();
-            this.BuildList = new System.Windows.Forms.ListBox();
+            this.BuildList = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.CampusLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BGmotto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.InstallerText)).BeginInit();
@@ -56,7 +56,6 @@ namespace Cids_Installer
             this.CampusLogo.Size = new System.Drawing.Size(66, 66);
             this.CampusLogo.TabIndex = 0;
             this.CampusLogo.TabStop = false;
-            this.CampusLogo.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // CheckBtn
             // 
@@ -76,10 +75,11 @@ namespace Cids_Installer
             this.ConfirmBtn.TabIndex = 2;
             this.ConfirmBtn.Text = "确定\r\n";
             this.ConfirmBtn.UseVisualStyleBackColor = true;
+            this.ConfirmBtn.Click += new System.EventHandler(this.ConfirmBtn_Click);
             // 
             // BuildingBox
             // 
-            this.BuildingBox.Location = new System.Drawing.Point(40, 293);
+            this.BuildingBox.Location = new System.Drawing.Point(12, 293);
             this.BuildingBox.Name = "BuildingBox";
             this.BuildingBox.PlaceholderText = "输入教学楼信息";
             this.BuildingBox.Size = new System.Drawing.Size(162, 23);
@@ -91,13 +91,14 @@ namespace Cids_Installer
             // 
             this.Help.SetHelpKeyword(this.ClassroomBox, "");
             this.Help.SetHelpString(this.ClassroomBox, "");
-            this.ClassroomBox.Location = new System.Drawing.Point(279, 293);
+            this.ClassroomBox.Location = new System.Drawing.Point(324, 293);
             this.ClassroomBox.Name = "ClassroomBox";
             this.ClassroomBox.PlaceholderText = "输入教室地点";
             this.Help.SetShowHelp(this.ClassroomBox, false);
             this.ClassroomBox.Size = new System.Drawing.Size(191, 23);
             this.ClassroomBox.TabIndex = 4;
             this.ClassTip.SetToolTip(this.ClassroomBox, "教学地点示例\r\n1-1\r\nB302\r\n208\r\n报告厅");
+            this.ClassroomBox.TextChanged += new System.EventHandler(this.ClassroomBox_TextChanged);
             // 
             // BuidingTip
             // 
@@ -138,10 +139,9 @@ namespace Cids_Installer
             // BuildList
             // 
             this.BuildList.FormattingEnabled = true;
-            this.BuildList.ItemHeight = 17;
-            this.BuildList.Location = new System.Drawing.Point(152, 312);
+            this.BuildList.Location = new System.Drawing.Point(180, 291);
             this.BuildList.Name = "BuildList";
-            this.BuildList.Size = new System.Drawing.Size(162, 140);
+            this.BuildList.Size = new System.Drawing.Size(138, 25);
             this.BuildList.TabIndex = 7;
             this.BuildList.Visible = false;
             this.BuildList.SelectedIndexChanged += new System.EventHandler(this.BuildList_SelectedIndexChanged);
@@ -191,7 +191,7 @@ namespace Cids_Installer
         private System.Windows.Forms.PictureBox BGmotto;
         public System.Windows.Forms.HelpProvider Help;
         private System.Windows.Forms.PictureBox InstallerText;
-        private System.Windows.Forms.ListBox BuildList;
+        private System.Windows.Forms.ComboBox BuildList;
     }
 }
 
