@@ -11,7 +11,7 @@ namespace Cids_Installer
 {
     class Database
     {
-        private string position;
+         public string Position { get; set; }
 
         #region Variables For Form
         public bool Confirmed { get; private set; }
@@ -62,15 +62,23 @@ namespace Cids_Installer
                 }
             }
         }
+        //<summary>
+        //查询 Id
+        //同时会更新本地存储 Id
+        //</summary>
         private int GetId(bool update=false) {
             if (Id != -1) { return Id; }
             return QueryIdFromDatabase(update);
         }
+        //<summary>
+        //从数据库查询 当前地址的 UUID
+        //如果没有且不更新的话 返回-1
+        //</summary>
         public int QueryIdFromDatabase(bool update=false)
         {
             using (MySqlConnection connection = new MySqlConnection(Builder.ConnectionString))
             {
-                string sql = QueryExact(position);
+                string sql = QueryExact(Position);
                 using (MySqlCommand command = new MySqlCommand(sql, connection))
                 {
                     if (command.CommandText.Length != 0)
@@ -79,7 +87,7 @@ namespace Cids_Installer
                     }
                     else
                     {
-                        return update ?Update(): Id=-1;
+                        return Id = (update ?Update(): -1);
                     }
                 }
             }
@@ -106,6 +114,9 @@ namespace Cids_Installer
             };
         }
 #if FETCH
+        //<summary>
+        //获取当前已有的教室
+        //</summary>
         public Database Fetch() {
             using (MySqlConnection connection=new MySqlConnection(Builder.ConnectionString))
             {
@@ -145,7 +156,7 @@ namespace Cids_Installer
         public String QueryAndUpdate(string loc) {
             int id = 0;
             if (!Query(loc,ref id)) {
-                id=Update();
+                id=Update(); // -1 is impossible
             }
             return IDCompletion(id);
         }
@@ -195,10 +206,13 @@ namespace Cids_Installer
         {
             return PushPlace().GetId();
         }
+        //<summary>
+        //根据 position 向数据库添加当前教室信息
+        //</summary>
         public Database PushPlace() {
             using (MySqlConnection connection = new MySqlConnection(Builder.ConnectionString))
             {
-                string sql = Inc+AppendSql(position);
+                string sql = Inc+AppendSql(Position);
                 using MySqlCommand command = new MySqlCommand(sql, connection);
             }
             return this;
@@ -221,13 +235,19 @@ namespace Cids_Installer
             return FuzzyMatching(loc);
         }
         #region Check Method
+        //<summary>
+        //通过 楼 和 房间 来正则匹配所有的教室
+        //</summary>
+        //<return>
+        //返回同时能够匹配到的教室
+        //</return>
         public IEnumerable<String> BuildingAndRoom(String loc,String room,bool allowEmpty=false)
         {
             List<String> choices = new List<String>();
             if (Query(loc+room, ref Id)) // exactly match
             {
                 Confirmed = true;
-                position = loc;
+                Position = loc;
             }
             else
             {
@@ -261,16 +281,21 @@ namespace Cids_Installer
         {
             return new List<String>();
         }
-        #endregion
-        public String Confirm()
+        #endregion//Match Endian
+        #endregion//Search
+        #region Id String Collect
+        public String GetCurrentId()
         {
             return IDCompletion(Id);
         }
+        //<summary>
+        //把当前位置添加到数据库 并返回Id
+        //</summary>
         public String Insert(String loc)
         {
-            position = loc;
+            Position = loc;
             return IDCompletion(Update());
         }
-        #endregion//Search
+        #endregion
     }
 }

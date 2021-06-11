@@ -56,7 +56,6 @@ namespace Cids_Installer
             this.CampusLogo.Size = new System.Drawing.Size(66, 66);
             this.CampusLogo.TabIndex = 0;
             this.CampusLogo.TabStop = false;
-            this.CampusLogo.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // CheckBtn
             // 
@@ -76,6 +75,7 @@ namespace Cids_Installer
             this.ConfirmBtn.TabIndex = 2;
             this.ConfirmBtn.Text = "确定\r\n";
             this.ConfirmBtn.UseVisualStyleBackColor = true;
+            this.ConfirmBtn.Click += new System.EventHandler(this.ConfirmBtn_Click);
             // 
             // BuildingBox
             // 
@@ -98,6 +98,7 @@ namespace Cids_Installer
             this.ClassroomBox.Size = new System.Drawing.Size(191, 23);
             this.ClassroomBox.TabIndex = 4;
             this.ClassTip.SetToolTip(this.ClassroomBox, "教学地点示例\r\n1-1\r\nB302\r\n208\r\n报告厅");
+            this.ClassroomBox.TextChanged += new System.EventHandler(this.ClassroomBox_TextChanged);
             // 
             // BuidingTip
             // 
