@@ -43,9 +43,11 @@ namespace Cids_Installer
             this.Help = new System.Windows.Forms.HelpProvider();
             this.InstallerText = new System.Windows.Forms.PictureBox();
             this.BuildList = new System.Windows.Forms.ComboBox();
+            this.SelectGroup = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.CampusLogo)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.BGmotto)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.InstallerText)).BeginInit();
+            this.SelectGroup.SuspendLayout();
             this.SuspendLayout();
             // 
             // CampusLogo
@@ -59,7 +61,7 @@ namespace Cids_Installer
             // 
             // CheckBtn
             // 
-            this.CheckBtn.Location = new System.Drawing.Point(522, 293);
+            this.CheckBtn.Location = new System.Drawing.Point(515, 45);
             this.CheckBtn.Name = "CheckBtn";
             this.CheckBtn.Size = new System.Drawing.Size(75, 23);
             this.CheckBtn.TabIndex = 1;
@@ -69,7 +71,7 @@ namespace Cids_Installer
             // 
             // ConfirmBtn
             // 
-            this.ConfirmBtn.Location = new System.Drawing.Point(634, 293);
+            this.ConfirmBtn.Location = new System.Drawing.Point(605, 45);
             this.ConfirmBtn.Name = "ConfirmBtn";
             this.ConfirmBtn.Size = new System.Drawing.Size(75, 23);
             this.ConfirmBtn.TabIndex = 2;
@@ -79,7 +81,7 @@ namespace Cids_Installer
             // 
             // BuildingBox
             // 
-            this.BuildingBox.Location = new System.Drawing.Point(12, 293);
+            this.BuildingBox.Location = new System.Drawing.Point(6, 47);
             this.BuildingBox.Name = "BuildingBox";
             this.BuildingBox.PlaceholderText = "输入教学楼信息";
             this.BuildingBox.Size = new System.Drawing.Size(162, 23);
@@ -91,7 +93,7 @@ namespace Cids_Installer
             // 
             this.Help.SetHelpKeyword(this.ClassroomBox, "");
             this.Help.SetHelpString(this.ClassroomBox, "");
-            this.ClassroomBox.Location = new System.Drawing.Point(324, 293);
+            this.ClassroomBox.Location = new System.Drawing.Point(318, 47);
             this.ClassroomBox.Name = "ClassroomBox";
             this.ClassroomBox.PlaceholderText = "输入教室地点";
             this.Help.SetShowHelp(this.ClassroomBox, false);
@@ -139,12 +141,25 @@ namespace Cids_Installer
             // BuildList
             // 
             this.BuildList.FormattingEnabled = true;
-            this.BuildList.Location = new System.Drawing.Point(180, 291);
+            this.BuildList.Location = new System.Drawing.Point(174, 45);
             this.BuildList.Name = "BuildList";
             this.BuildList.Size = new System.Drawing.Size(138, 25);
             this.BuildList.TabIndex = 7;
             this.BuildList.Visible = false;
             this.BuildList.SelectedIndexChanged += new System.EventHandler(this.BuildList_SelectedIndexChanged);
+            // 
+            // SelectGroup
+            // 
+            this.SelectGroup.Controls.Add(this.BuildingBox);
+            this.SelectGroup.Controls.Add(this.BuildList);
+            this.SelectGroup.Controls.Add(this.ClassroomBox);
+            this.SelectGroup.Controls.Add(this.ConfirmBtn);
+            this.SelectGroup.Controls.Add(this.CheckBtn);
+            this.SelectGroup.Location = new System.Drawing.Point(31, 291);
+            this.SelectGroup.Name = "SelectGroup";
+            this.SelectGroup.Size = new System.Drawing.Size(697, 100);
+            this.SelectGroup.TabIndex = 8;
+            this.SelectGroup.TabStop = false;
             // 
             // Installer
             // 
@@ -153,13 +168,9 @@ namespace Cids_Installer
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.BuildList);
+            this.Controls.Add(this.SelectGroup);
             this.Controls.Add(this.InstallerText);
             this.Controls.Add(this.BGmotto);
-            this.Controls.Add(this.ClassroomBox);
-            this.Controls.Add(this.BuildingBox);
-            this.Controls.Add(this.ConfirmBtn);
-            this.Controls.Add(this.CheckBtn);
             this.Controls.Add(this.CampusLogo);
             this.HelpButton = true;
             this.Help.SetHelpString(this, "先输入教学楼信息 再输入教室地点 查询后 如果该地点存在 则可以点击确定 如果该地点不存在 则可以点击新增");
@@ -173,8 +184,9 @@ namespace Cids_Installer
             ((System.ComponentModel.ISupportInitialize)(this.CampusLogo)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.BGmotto)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.InstallerText)).EndInit();
+            this.SelectGroup.ResumeLayout(false);
+            this.SelectGroup.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -192,6 +204,7 @@ namespace Cids_Installer
         public System.Windows.Forms.HelpProvider Help;
         private System.Windows.Forms.PictureBox InstallerText;
         private System.Windows.Forms.ComboBox BuildList;
+        private System.Windows.Forms.GroupBox SelectGroup;
     }
 }
 

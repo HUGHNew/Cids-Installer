@@ -11,8 +11,8 @@ namespace Cids_Installer
         /// <summary>
         ///  The main entry point for the application.
         /// </summary>
-        //[STAThread]
-        [MTAThread]
+        [STAThread]
+        //[MTAThread]
         static void Main()
         {
             //SqlTest.QueryTestData();
@@ -22,7 +22,8 @@ namespace Cids_Installer
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Installer());
+            //Application.Run(new Installer());
+            Application.Run(new Configuration());
         }
     }
 }
