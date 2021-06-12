@@ -20,10 +20,18 @@ namespace Cids_Installer
 
 
         public const string LoopBack = "127.0.0.1";
-        public const string Center = "";
-        //todo
-        //set the json
+        #region Json Property Setting
         public static String UuId { get; set; }
+        public static string Center {get;set;}
+        public static int CenterPort { get; set; }
+        public static int MirrorPort { get; set; }
+        public static int UdpDelay { get; set; }
+        public static int HeatBeatTime { get; set; }
+        public static int HBLimit { get; set; }
+        public static int SleepMax { get; set; }
+        public static int SleepMin { get; set; }
+        public static int ProtocolNum { get; set; }
+        #endregion
         static Local()
         {
             //EnvironmentLoading();
@@ -37,6 +45,7 @@ namespace Cids_Installer
             #endregion
             SaveDefault();
         }
+        #region Save Domain
         public static void SaveDefault()
         {
             SaveConfFile(Center, CidsFile);
@@ -49,6 +58,7 @@ namespace Cids_Installer
         {
             SaveConfFile(LoopBack, savefile);
         }
+        #endregion
         /**
          * @brief Save Conf Json File
          */
@@ -58,21 +68,21 @@ namespace Cids_Installer
             {
                 Net=new ConfComponent.NetData { 
                     Main_Ip=center,
-                    Main_Port=20800,
-                    Mirror_Port=20801
+                    Main_Port=CenterPort,
+                    Mirror_Port=MirrorPort
                 },
                 Time=new ConfComponent.TimeData
                 {
-                    Delay=100,
-                    HeartBeat=1000,
-                    Limit=10,
+                    Delay= UdpDelay,
+                    HeartBeat=HeatBeatTime,
+                    Limit= HBLimit,
                     Sleep=new ConfComponent.SleepTime
                     {
-                        Max=5000,
-                        Min=2000
+                        Max=SleepMax,
+                        Min=SleepMin
                     }
                 },
-                Protocol=2,
+                Protocol=ProtocolNum,
                 Logo= "favicon.ico"
             };
             File.WriteAllText(savefile,JsonSerializer.Serialize(configuration));

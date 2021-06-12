@@ -125,7 +125,6 @@ namespace Cids_Installer
             // IpMaskText
             // 
             this.IpMaskText.Location = new System.Drawing.Point(90, 29);
-            this.IpMaskText.Mask = "127.\\0.\\0.1";
             this.IpMaskText.Name = "IpMaskText";
             this.IpMaskText.Size = new System.Drawing.Size(100, 23);
             this.IpMaskText.TabIndex = 0;

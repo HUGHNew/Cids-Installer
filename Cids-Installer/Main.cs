@@ -91,7 +91,7 @@ namespace Cids_Installer
             Selected =! (BuildList.SelectedItem as String == None);
             SubmitBtnSwitch(true);
         }
-
+        //<summary>自动更新ID</summary>
         private void ConfirmBtn_Click(object sender, EventArgs e)
         {
             if (BuildList.SelectedItem as String == None)
@@ -107,12 +107,8 @@ namespace Cids_Installer
                 Id = database.QueryAndUpdate(BuildList.SelectedItem as String);
             }
             // Jump To Next Page
+            this.Close();
         }
         //<summary>安装的最后一步</summary>
-        private void WriteToSystem()
-        {
-            //把信息写入系统 包括配置文件和需要建的文件夹等等
-        }
-
     }
 }

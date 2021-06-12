@@ -49,11 +49,29 @@ namespace Cids_Installer
                 TimeButton.Text = "显示时间控制";
             }
         }
+        private void ValueCopy()
+        {
+            Local.Center = IpMaskText.Text;
+            Local.CenterPort = int.Parse(MainPortText.Text);
+            Local.MirrorPort = int.Parse(MirrorPortText.Text);
 
+            Local.UdpDelay= int.Parse(UdpDelayText.Text);
+            Local.HeatBeatTime = int.Parse(HeartBeatText.Text);
+            Local.HBLimit= int.Parse(LimitText.Text);
+            Local.SleepMax = int.Parse(SleepTimeMaxText.Text);
+            Local.SleepMin = int.Parse(SleepTimeMinText.Text);
+
+            Local.ProtocolNum = ProtocolBox.SelectedIndex + 1;
+        }
         private void Install_Click(object sender, EventArgs e)
         {
-            //todo
-            // write conf file
+            if (System.Net.IPAddress.TryParse(IpMaskText.Text,out _) ==false)// not parse
+            {
+                MessageBox.Show($"{IpMaskText.Text} 为无效IP地址", "请输入有效IP地址");
+                return;
+            }
+            ValueCopy();
+            Local.SaveDefault();
             this.Close();
         }
 
@@ -70,5 +88,6 @@ namespace Cids_Installer
                 ExpandButton.Text = "显示拓展选项";
             }
         }
+
     }
 }
