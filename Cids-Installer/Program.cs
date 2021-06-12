@@ -22,8 +22,8 @@ namespace Cids_Installer
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Installer());
-            Application.Run(new Configuration());
+            Application.Run(new Installer());
+            //Application.Run(new Configuration());
         }
     }
 }

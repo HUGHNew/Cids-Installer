@@ -1,4 +1,5 @@
-﻿using System;
+﻿#define PPT
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -13,6 +14,13 @@ namespace Cids_Installer
     public partial class Installer : Form
     {
         public static string Id { get; set; }
+#if PPT
+        private Dictionary<String, String> Campus2Building;
+        private Dictionary<String, String> Building2Class;
+        private void DataLoad() { 
+            //Campus.
+        }
+#else
         private Database database = new Database(true);
         private IEnumerable<String> todo;
         public const String None = "为未存储信息 请新增";
@@ -23,6 +31,7 @@ namespace Cids_Installer
         private bool Selected = true;
         // whether it is checked
         private bool Submit = false;
+#endif
         public Installer()
         {
             InitializeComponent();
@@ -30,14 +39,16 @@ namespace Cids_Installer
         private void DefaultSetting()
         {
             //BuildList.Hide();
-            BuildList.Text =ToSelect ;
+            //BuildList.Text =ToSelect ;
         }
         private void Form1_Load(object sender, EventArgs e)
         {
             DefaultSetting();
 
         }
+#if PPT
 
+#else
         private void BuildingBox_TextChanged(object sender, EventArgs e)
         {
             SubmitBtnSwitch(false);
@@ -113,6 +124,7 @@ namespace Cids_Installer
         {
             //把信息写入系统 包括配置文件和需要建的文件夹等等
         }
+#endif
 
     }
 }
