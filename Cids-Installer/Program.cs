@@ -15,15 +15,12 @@ namespace Cids_Installer
         //[MTAThread]
         static void Main()
         {
-            //SqlTest.QueryTestData();
-            //SqlTest.QueryTestEmpty();
-            //SqlTest.QueryIdMap();
-            //LocalTest.JsonTest();
-            Application.SetHighDpiMode(HighDpiMode.SystemAware);
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Installer());
-            Application.Run(new Configuration());
+            LocalTest.MvTest();
+            //Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            //Application.EnableVisualStyles();
+            //Application.SetCompatibleTextRenderingDefault(false);
+            //Application.Run(new Installer());
+            //Application.Run(new Configuration());
             //Form First = new Configuration();
             //Form Last = new Configuration();
             //Application.Run(First);

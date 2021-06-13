@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.Win32;
 
 namespace Cids_Installer
 {
@@ -31,7 +32,9 @@ namespace Cids_Installer
         {
             //BuildList.Hide();
             BuildList.Text =ToSelect ;
+
         }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             DefaultSetting();
@@ -106,6 +109,10 @@ namespace Cids_Installer
                 SubmitBtnSwitch();
                 Id = database.QueryAndUpdate(BuildList.SelectedItem as String);
             }
+            Local.EnvironmentLoading(false); // set Cids CidsUUID
+            // Create Directory
+            if(!System.IO.Directory.Exists(Local.CidsImage))
+                System.IO.Directory.CreateDirectory(Local.CidsImage);
             // Jump To Next Page
             this.Close();
         }

@@ -70,8 +70,12 @@ namespace Cids_Installer
                 MessageBox.Show($"{IpMaskText.Text} 为无效IP地址", "请输入有效IP地址");
                 return;
             }
+            // save conf file
             ValueCopy();
             Local.SaveDefault();
+            // set autorun
+            Local.MoveExeToCids();
+            Local.SetAutoRun();
             this.Close();
         }
 

@@ -3,6 +3,8 @@ using System.IO;
 using System.Collections.Generic;
 using System.Text.Json;
 using static Cids_Installer.LocalTest;
+using Microsoft.Win32;
+
 namespace Cids_Installer
 {
     class Local
@@ -17,6 +19,11 @@ namespace Cids_Installer
 
         public static string Cids => Environment.GetEnvironmentVariable(MainEnv, Machine);
         public static string CidsFile => Path.Combine(Cids, JsonFile);
+        public static string CidsImage => Path.Combine(Cids, "image");
+        public const string client = "cids-cient.exe";
+        public static string CidsClient => Path.Combine(Cids, client);
+        public const string uninstall = "unist.exe";
+        public static string CidsUninst => Path.Combine(Cids, uninstall);
 
 
         public const string LoopBack = "127.0.0.1";
@@ -36,14 +43,58 @@ namespace Cids_Installer
         {
             //EnvironmentLoading();
         }
-        public static void EnvironmentLoading()
+        public static void EnvironmentLoading(bool InstantSave)
         {
             #region Set Env Var
             Environment.SetEnvironmentVariable(MainEnv,
                 Path.Combine(ProgramFilesPath,MainEnv),Machine); // Cids
             Environment.SetEnvironmentVariable(Id, UuId, Machine); // CidsUUID
             #endregion
-            SaveDefault();
+            if(InstantSave)SaveDefault();
+        }
+        /// <summary>
+        /// 将程序移动到Cids目录下
+        /// </summary>
+        public static void MoveExeToCids() {
+            File.Move(client,CidsClient); // move client
+            File.Move(uninstall, CidsUninst); // move uninstaller
+        }
+        public static void SetAutoRun()
+        {
+            SetAutoRun(CidsClient,true);
+        }
+        /// <summary>
+        /// 设置应用程序开机自动运行
+        /// </summary>
+        /// <param name="fileName">应用程序的文件名 程序的绝对路径</param>
+        /// <param name="isAutoRun">是否自动运行，为false时，取消自动运行</param>
+        /// <exception cref="System.Exception">设置不成功时抛出异常</exception>
+        public static void SetAutoRun(string fileName, bool isAutoRun)
+        {
+            RegistryKey reg = null;
+            try
+            {
+                if (!System.IO.File.Exists(fileName))
+                    throw new Exception("该文件不存在!");
+                String name = fileName[(fileName.LastIndexOf(@"\") + 1)..];
+                reg = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
+                if (reg == null)
+                    reg = Registry.LocalMachine.CreateSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
+                if (isAutoRun)
+                    reg.SetValue(name, fileName);
+                else
+                    reg.SetValue(name, false);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.ToString());
+            }
+            finally
+            {
+                if (reg != null)
+                    reg.Close();
+            }
+
         }
         #region Save Domain
         public static void SaveDefault()
