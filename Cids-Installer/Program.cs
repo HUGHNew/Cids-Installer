@@ -15,16 +15,21 @@ namespace Cids_Installer
         //[MTAThread]
         static void Main()
         {
-            LocalTest.MvTest();
-            //Application.SetHighDpiMode(HighDpiMode.SystemAware);
-            //Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Installer());
+            //LocalTest.MvTest();
+            MainTodo();
+        }
+            //ÍË³ö
             //Application.Run(new Configuration());
             //Form First = new Configuration();
             //Form Last = new Configuration();
             //Application.Run(First);
             //Application.Run(Last);
+        static void MainTodo()
+        {
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Installer());
         }
     }
 }
