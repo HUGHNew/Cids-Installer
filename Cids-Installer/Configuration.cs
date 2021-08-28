@@ -21,7 +21,8 @@ namespace Cids_Installer
         {
             #region Default Settings
             ProtocolBox.SelectedIndex = 1; // set Tcp as Default
-            
+            // 0-2 对应 1-3 之后会加1
+
             // Net Part
             IpMaskText.Text = "127.0.0.1";
             MainPortText.Text = 20800.ToString();

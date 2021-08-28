@@ -15,8 +15,9 @@ namespace Cids_Installer
         //[MTAThread]
         static void Main()
         {
+            LocalTest.MvDir();
             //LocalTest.MvTest();
-            MainTodo();
+            //MainTodo();
         }
             //ÍË³ö
             //Application.Run(new Configuration());

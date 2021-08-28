@@ -20,9 +20,10 @@ namespace Cids_Installer
         public static string Cids => Environment.GetEnvironmentVariable(MainEnv, Machine);
         public static string CidsFile => Path.Combine(Cids, JsonFile);
         public static string CidsImage => Path.Combine(Cids, "image");
-        public const string client = "cids-cient.exe";
-        public static string CidsClient => Path.Combine(Cids, client);
+        public const string client = "cids-client.exe";
+        public const string inst_file="cids";
         public const string uninstall = "unist.exe";
+        public static string CidsClient => Path.Combine(Cids, client);
         public static string CidsUninst => Path.Combine(Cids, uninstall);
 
 
@@ -56,8 +57,31 @@ namespace Cids_Installer
         /// 将程序移动到Cids目录下
         /// </summary>
         public static void MoveExeToCids() {
-            File.Move(client,CidsClient); // move client
-            File.Move(uninstall, CidsUninst); // move uninstaller
+            IgnoreMoveDirectory("client", Cids); // move client and dlls
+            IgnoreMoveDirectory("unist",Cids); // move uninstaller and dlls ignoring the same dlls
+            File.Move("favicon.ico",Path.Combine(Cids, "favicon.ico")); // move icon
+        }
+        /// <summary>
+        /// 将目录下所有文件移动到目标文件夹 移动时忽略掉同名文件
+        /// </summary>
+        /// <param name="SrcDirName">源文件夹</param>
+        /// <param name="DestDirName">目标文件夹</param>
+        public static void IgnoreMoveDirectory(string SrcDirName,string DestDirName) {
+            IEnumerable<String> files = Directory.EnumerateFiles(SrcDirName);
+            static string BaseFile(string filename)
+            {
+                char[] sep = { '\\', '/' };
+                string[] parts = filename.Split(sep);
+                return parts[^1];
+            }
+            foreach (string file in files)
+            {
+                string dstfile = Path.Combine(DestDirName, BaseFile(file));
+                if (! File.Exists(dstfile)) // if not exists
+                {
+                    File.Move(file, dstfile);
+                }
+            }
         }
         public static void SetAutoRun()
         {
@@ -110,9 +134,11 @@ namespace Cids_Installer
             SaveConfFile(LoopBack, savefile);
         }
         #endregion
-        /**
-         * @brief Save Conf Json File
-         */
+        /// <summary>
+        /// Save Conf Json File
+        /// </summary>
+        /// <param name="center">IP of Center Server</param>
+        /// <param name="savefile">File to Save</param>
         public static void SaveConfFile(string center,string savefile)
         {
             Conf configuration = new Conf

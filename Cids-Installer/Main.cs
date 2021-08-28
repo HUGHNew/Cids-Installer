@@ -110,9 +110,6 @@ namespace Cids_Installer
                 Id = database.QueryAndUpdate(BuildList.SelectedItem as String);
             }
             Local.EnvironmentLoading(false); // set Cids CidsUUID
-            // Create Directory
-            if(!System.IO.Directory.Exists(Local.CidsImage))
-                System.IO.Directory.CreateDirectory(Local.CidsImage);
             // Jump To Next Page
             this.Close();
         }
