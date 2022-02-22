@@ -51,16 +51,10 @@ namespace Cids_Installer
         // useless function
         private Rel MySqlTodo<Rel>(string sql, Func<Rel>todo)
         {
-            using (MySqlConnection connection = new MySqlConnection(Builder.ConnectionString))
-            {
-                using (MySqlCommand command = new MySqlCommand(sql))
-                {
-                    using (MySqlDataReader reader = command.ExecuteReader())
-                    {
-                        return todo();
-                    }
-                }
-            }
+            using MySqlConnection connection = new MySqlConnection(Builder.ConnectionString);
+            using MySqlCommand command = new MySqlCommand(sql);
+            using MySqlDataReader reader = command.ExecuteReader();
+            return todo();
         }
         //<summary>
         //查询 Id
@@ -76,20 +70,13 @@ namespace Cids_Installer
         //</summary>
         public int QueryIdFromDatabase(bool update=false)
         {
-            using (MySqlConnection connection = new MySqlConnection(Builder.ConnectionString))
-            {
-                string sql = QueryExact(Position);
-                using (MySqlCommand command = new MySqlCommand(sql, connection))
-                {
-                    if (command.CommandText.Length != 0)
-                    {
-                        return Id = command.ExecuteReader().GetInt32(0);
-                    }
-                    else
-                    {
-                        return Id = (update ?Update(): -1);
-                    }
-                }
+            using MySqlConnection connection = new MySqlConnection(Builder.ConnectionString);
+            string sql = QueryExact(Position);
+            using MySqlCommand command = new MySqlCommand(sql, connection);
+            if (command.CommandText.Length != 0) {
+                return Id = command.ExecuteReader().GetInt32(0);
+            } else {
+                return Id = (update ? Update() : -1);
             }
         }
         #endregion

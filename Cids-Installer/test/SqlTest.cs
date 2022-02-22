@@ -12,10 +12,9 @@ namespace Cids_Installer
         private static readonly StreamWriter Log;
         static SqlTest()
         {
-            LocalTest.WriteDBJson();
             Info = JsonSerializer.Deserialize<DBInfo>(File.ReadAllText(Database.DataBaseInfo));
             Builder = Database.SqlStrBuilder(ref Info);
-            Log = new StreamWriter(File.OpenWrite(LocalTest.Log));
+            Log = new StreamWriter(File.OpenWrite("./log"));
         }
         public static void QueryTestData(bool close=true)
         {

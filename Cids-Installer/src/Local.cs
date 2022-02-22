@@ -2,11 +2,9 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Text.Json;
-using static Cids_Installer.LocalTest;
 using Microsoft.Win32;
 
-namespace Cids_Installer
-{
+namespace Cids_Installer {
     class Local
     {
         public const string MainEnv = "Cids";
@@ -40,10 +38,6 @@ namespace Cids_Installer
         public static int SleepMin { get; set; }
         public static int ProtocolNum { get; set; }
         #endregion
-        static Local()
-        {
-            //EnvironmentLoading();
-        }
         public static void EnvironmentLoading(bool InstantSave)
         {
             #region Set Env Var
