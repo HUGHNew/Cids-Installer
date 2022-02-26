@@ -108,13 +108,11 @@ namespace Cids_Installer
             using (MySqlConnection connection=new MySqlConnection(Builder.ConnectionString))
             {
                 connection.Open();
-                using (MySqlCommand command=new MySqlCommand(QueryCmd,connection)) {
-                    using (MySqlDataReader reader = command.ExecuteReader()) {
-                        // Read to map
-                        while (reader.Read()) {
-                            IdMap.Add(reader.GetString(0), reader.GetInt32(1));
-                        }
-                    }
+                using MySqlCommand command = new MySqlCommand(QueryCmd, connection);
+                using MySqlDataReader reader = command.ExecuteReader();
+                // Read to map
+                while (reader.Read()) {
+                    IdMap.Add(reader.GetString(0), reader.GetInt32(1));
                 }
             }
             return this;
@@ -172,15 +170,11 @@ namespace Cids_Installer
             using (MySqlConnection connection = new MySqlConnection(Builder.ConnectionString))
             {
                 string sql = QueryExact(loc);
-                using (MySqlCommand command = new MySqlCommand(sql, connection))
-                {
-                    if (command.CommandText.Length != 0)
-                    {
-                        Id=id = command.ExecuteReader().GetInt32(0);
-                        return true;
-                    }
-                    else Id=id = -1;
-                }
+                using MySqlCommand command = new MySqlCommand(sql, connection);
+                if (command.CommandText.Length != 0) {
+                    Id = id = command.ExecuteReader().GetInt32(0);
+                    return true;
+                } else Id = id = -1;
             }
             return false;
         }
